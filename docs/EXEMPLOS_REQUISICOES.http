@@ -1,0 +1,31 @@
+### Criar usuário
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+  "full_name": "Marina Costa",
+  "email": "marina.costa@cloudflow.local",
+  "password": "Senha123",
+  "role": "admin"
+}
+
+### Login
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+  "email": "marina.costa@cloudflow.local",
+  "password": "Senha123"
+}
+
+### Criar fluxo
+POST http://localhost:8000/workflows
+Content-Type: application/json
+
+{
+  "title": "Aprovação de compra de notebooks",
+  "description": "Fluxo interno para análise e aprovação de equipamentos.",
+  "status": "open",
+  "priority": "high",
+  "owner_id": 1
+}

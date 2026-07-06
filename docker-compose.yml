@@ -1,0 +1,27 @@
+services:
+  api:
+    build: .
+    container_name: cloudflow-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.example
+    depends_on:
+      - db
+    volumes:
+      - ./uploads:/app/uploads
+
+  db:
+    image: postgres:16
+    container_name: cloudflow-db
+    environment:
+      POSTGRES_DB: cloudflow_db
+      POSTGRES_USER: cloudflow_user
+      POSTGRES_PASSWORD: cloudflow_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - cloudflow_pgdata:/var/lib/postgresql/data
+
+volumes:
+  cloudflow_pgdata:

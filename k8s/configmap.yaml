@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflow-config
+data:
+  APP_NAME: "CloudFlow SaaS"
+  APP_ENV: "production"
+  UPLOAD_MODE: "local"
+  LOCAL_UPLOAD_DIR: "uploads"

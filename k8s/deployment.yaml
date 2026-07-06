@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflow-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudflow-api
+  template:
+    metadata:
+      labels:
+        app: cloudflow-api
+    spec:
+      containers:
+        - name: cloudflow-api
+          image: cloudflow-saas:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: cloudflow-config
+            - secretRef:
+                name: cloudflow-secret
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
