@@ -1,211 +1,399 @@
 # CloudFlow SaaS
 
-CloudFlow SaaS é um projeto cloud-native original para a disciplina de Computação em Nuvem.
+CloudFlow SaaS é uma aplicação desenvolvida para a disciplina de **Computação em Nuvem**, com o objetivo de demonstrar a construção de uma solução baseada em arquitetura **cloud-native** utilizando containers, Kubernetes e boas práticas de desenvolvimento de APIs REST.
 
-O sistema simula uma plataforma SaaS para **gestão de fluxos de trabalho, solicitações internas e anexos de equipes**, usando API REST, banco SQL, containers, Kubernetes e serviços AWS.
-
-> Este projeto foi criado como uma nova proposta acadêmica e não reutiliza os dados, nome, entidades ou domínio do projeto de exemplo.
+A aplicação simula uma plataforma SaaS para gerenciamento de fluxos de trabalho, permitindo o cadastro de usuários, autenticação, gerenciamento de processos, definição de prioridades e upload de arquivos.
 
 ---
 
-## Objetivo
+# Objetivos do Projeto
 
-Desenvolver um mini SaaS moderno com arquitetura em nuvem, contendo:
+O projeto foi desenvolvido para aplicar, na prática, os principais conceitos estudados na disciplina de Computação em Nuvem, incluindo:
 
-- Cadastro de usuários
-- Login simples
-- CRUD de fluxos/processos
-- Status e prioridade
-- Upload de anexos
-- API REST documentada
-- Persistência em PostgreSQL
-- Containerização com Docker
-- Deploy em Kubernetes
-- Integração planejada com AWS RDS, S3, EKS, IAM e CloudWatch
+- Desenvolvimento de APIs REST;
+- Containerização de aplicações;
+- Orquestração utilizando Kubernetes;
+- Persistência de dados em banco relacional;
+- Versionamento utilizando Git e GitHub;
+- Preparação para implantação em ambientes de nuvem.
 
 ---
 
-## Tecnologias
+# Funcionalidades
+
+- Cadastro de usuários;
+- Autenticação de usuários;
+- CRUD de fluxos de trabalho;
+- Controle de status e prioridade;
+- Upload de anexos;
+- Documentação automática da API (Swagger/OpenAPI);
+- Persistência em banco PostgreSQL.
+
+---
+
+# Tecnologias Utilizadas
+
+## Linguagem
 
 - Python 3.12
+
+## Framework
+
 - FastAPI
+
+## Banco de Dados
+
+- PostgreSQL 16
+
+## ORM
+
 - SQLAlchemy
-- PostgreSQL
+
+## Containers
+
 - Docker
 - Docker Compose
+
+## Orquestração
+
 - Kubernetes
-- Amazon RDS
-- Amazon S3
-- Amazon EKS
-- IAM
+
+## Documentação
+
+- Swagger / OpenAPI
+
+## Controle de versão
+
+- Git
 - GitHub
 
+## Preparação para Cloud
+
+- Amazon S3
+- Amazon RDS
+- Amazon EKS
+- AWS IAM
+
 ---
 
-## Arquitetura
+# Pré-requisitos
 
-```text
-Usuário / Internet
-        ↓
-Load Balancer
-        ↓
-Kubernetes / EKS
-        ↓
-Pods com FastAPI
-        ↓
-PostgreSQL / RDS
-        ↓
-Amazon S3 para anexos
-        ↓
-CloudWatch Logs
-        ↓
-IAM e Security Groups
+Antes de executar o projeto, instale os seguintes softwares.
+
+## Python
+
+Download:
+
+https://www.python.org/downloads/
+
+Verificar instalação:
+
+```bash
+python --version
 ```
 
 ---
 
-## Estrutura do Projeto
+## Git
 
-```text
-cloudflow-saas/
-├── app/
-│   ├── api/
-│   ├── core/
-│   ├── models/
-│   ├── schemas/
-│   └── services/
-├── docs/
-├── k8s/
-├── scripts/
-├── tests/
-├── .env.example
-├── .gitignore
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-└── README.md
+Download:
+
+https://git-scm.com/downloads
+
+Verificar instalação:
+
+```bash
+git --version
 ```
 
 ---
 
-## Como executar localmente
+## Docker Desktop
 
-### 1. Copiar variáveis de ambiente
+Download:
+
+https://www.docker.com/products/docker-desktop/
+
+Após instalar:
+
+```bash
+docker --version
+docker compose version
+```
+
+---
+
+## Kubernetes
+
+Neste projeto foi utilizado o Kubernetes disponibilizado pelo próprio Docker Desktop.
+
+Após habilitar o Kubernetes:
+
+```bash
+kubectl version
+kubectl get nodes
+```
+
+---
+
+# Clonando o Projeto
+
+```bash
+git clone https://github.com/EveraldoBarros/Trabalho-de-Computa-o-em-Nuvem---Uninter.git
+
+cd Trabalho-de-Computa-o-em-Nuvem---Uninter
+```
+
+---
+
+# Configuração
+
+Copie o arquivo de exemplo:
 
 ```bash
 cp .env.example .env
 ```
 
-### 2. Subir com Docker Compose
+Caso utilize Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Ou simplesmente copie o arquivo manualmente.
+
+---
+
+# Executando o Projeto
+
+## Construindo os containers
+
+```bash
+docker compose build
+```
+
+---
+
+## Iniciando os containers
+
+```bash
+docker compose up
+```
+
+ou
 
 ```bash
 docker compose up --build
 ```
 
-### 3. Acessar a API
+---
 
-```text
-http://localhost:8000
-```
+## Verificando os containers
 
-Documentação Swagger:
-
-```text
-http://localhost:8000/docs
+```bash
+docker ps
 ```
 
 ---
 
-## Rotas principais
+# Acessando a Aplicação
 
-### Usuários
+API:
 
-```http
-POST /users
-GET /users
+```
+http://localhost:8000
 ```
 
-### Autenticação
+Swagger:
 
-```http
+```
+http://localhost:8000/docs
+```
+
+OpenAPI:
+
+```
+http://localhost:8000/openapi.json
+```
+
+---
+
+# Endpoints
+
+## Autenticação
+
+```
 POST /auth/login
 ```
 
-### Fluxos de trabalho
+---
 
-```http
-POST /workflows
-GET /workflows
-GET /workflows/{workflow_id}
-PUT /workflows/{workflow_id}
-DELETE /workflows/{workflow_id}
+## Usuários
+
+```
+GET /users
+POST /users
 ```
 
-### Uploads
+---
 
-```http
+## Workflows
+
+```
+GET /workflows
+POST /workflows
+GET /workflows/{id}
+PUT /workflows/{id}
+DELETE /workflows/{id}
+```
+
+---
+
+## Uploads
+
+```
 POST /uploads/{workflow_id}
 GET /uploads
 ```
 
-### Saúde da aplicação
+---
 
-```http
+## Health Check
+
+```
 GET /health
 ```
 
 ---
 
-## Deploy com Kubernetes
+# Estrutura do Projeto
 
-Gerar imagem:
+```text
+cloudflow-saas/
 
-```bash
-docker build -t cloudflow-saas:1.0 .
+app/
+│
+├── api/
+├── core/
+├── models/
+├── schemas/
+├── services/
+
+docs/
+
+k8s/
+
+scripts/
+
+tests/
+
+uploads/
+
+Dockerfile
+
+docker-compose.yml
+
+requirements.txt
+
+README.md
+
+.env.example
 ```
 
-Aplicar arquivos Kubernetes:
+---
+
+# Implantação com Kubernetes
+
+Aplicar os manifestos:
 
 ```bash
-kubectl apply -f k8s/configmap.yaml
-kubectl apply -f k8s/secret.yaml
-kubectl apply -f k8s/deployment.yaml
-kubectl apply -f k8s/service.yaml
-kubectl apply -f k8s/hpa.yaml
+kubectl apply -f k8s/
+```
+
+Verificar os recursos:
+
+```bash
+kubectl get nodes
+
+kubectl get deployments
+
+kubectl get services
+
+kubectl get configmaps
+
+kubectl get secrets
+
+kubectl get hpa
+```
+
+Verificar os Pods:
+
+```bash
+kubectl get pods
 ```
 
 ---
 
-## Deploy em AWS
+# Arquitetura
 
-Para uma entrega completa na AWS, utilize:
+```text
+                 Usuário
 
-- **Amazon EKS** para executar Kubernetes
-- **Amazon RDS PostgreSQL** para banco gerenciado
-- **Amazon S3** para anexos
-- **IAM** para permissões
-- **CloudWatch** para logs
-- **Security Groups** para controle de acesso
+                    │
 
----
+             HTTP / REST API
 
-## Sugestão de evidências para o relatório
+                    │
 
-Inclua capturas de tela de:
+              FastAPI (Docker)
 
-- API rodando localmente
-- Swagger funcionando
-- Docker build
-- Docker Compose executando
-- Pods Kubernetes ativos
-- Service Kubernetes exposto
-- Banco PostgreSQL conectado
-- Bucket S3 criado
-- Repositório GitHub
-- Deploy em cloud
+                    │
+
+             Kubernetes Cluster
+
+                    │
+
+             PostgreSQL Database
+
+                    │
+
+           Upload de Arquivos
+```
 
 ---
 
-## Licença
+# Futuras Integrações em Nuvem
 
-MIT
+A arquitetura foi preparada para futura utilização dos seguintes serviços AWS:
+
+- Amazon S3
+- Amazon RDS PostgreSQL
+- Amazon EKS
+- AWS IAM
+- Amazon CloudWatch
+
+---
+
+# Repositório
+
+Projeto disponível em:
+
+https://github.com/EveraldoBarros/Trabalho-de-Computa-o-em-Nuvem---Uninter
+
+---
+
+# Autor
+
+José Everaldo de Barros
+
+RU: 4972245
+
+Disciplina: Computação em Nuvem
+
+Centro Universitário Internacional UNINTER
+
+---
+
+# Licença
+
+MIT License
